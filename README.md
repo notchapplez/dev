@@ -1,1 +1,1 @@
-# dev
+Dev is a work-in-progress toolkit for all developers which contains tools like grep and some other jokes bundled.
