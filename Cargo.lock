@@ -109,6 +109,7 @@ name = "dev"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "owo-code",
  "owo-colors",
  "sysinfo",
 ]
@@ -170,6 +171,12 @@ name = "once_cell_polyfill"
 version = "1.70.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
+
+[[package]]
+name = "owo-code"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8c05c1a9a51b1148d3d85a102dd02b94ec9b4164f02d0cb55773724a35277af4"
 
 [[package]]
 name = "owo-colors"
