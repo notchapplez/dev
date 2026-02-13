@@ -4,6 +4,7 @@ use owo_colors::OwoColorize;
 use std::io;
 use std::io::Read;
 use sysinfo;
+use std::fs;
 
 
 #[derive(Parser)]
@@ -16,27 +17,48 @@ struct Args {
 #[derive(Subcommand)]
 enum Commands {
     Note { note_text: String },
+    #[command(hide = true)]
     Femboy,
     Placeholder,
     Info,
     Cat { femboy: Option<String> },
     Grep { search: String },
     Test,
-    /* grep, jokes, utils, cat, etc. (toolbox, I know, I know) */
+    Ls { dir: Option<String>},
+    Rust {
+        action: String,
+        #[arg(required = false)]
+        args: Option<String>,
+    },
+}
+
+fn rust(action: String, args: Vec<String>) -> Result<(), Box<dyn std::error::Error>> {
+    let status = std::process::Command::new("cargo")
+        .arg(action)
+        .args(args)
+        .status()?;
+
+
+    match status {
+        s if !s.success() => println!("Command failed"),
+        _ => {}
+    }
+
+    Ok(())
 }
 
 fn cat(femboy_name: Option<String>) {
     if femboy_name.is_none() {
         loop {
-            let mut femput = String::new();
-            io::stdin()
-                .read_line(&mut femput)
-                .expect("Failed to read from fembin");
-            print!("{}", femput);
+                let mut femput = String::new();
+                io::stdin()
+                    .read_line(&mut femput)
+                    .expect("Failed to read from fembin");
+                print!("{}", femput);
         }
     }
 
-    let contents = std::fs::read_to_string(&femboy_name.unwrap())
+    let contents = fs::read_to_string(&femboy_name.unwrap())
         .expect("Something went wrong reading the femboy");
     println!("{}", contents);
 }
@@ -102,6 +124,32 @@ fn gather() {
         system.processes().len().red()
     );
 }
+pub fn ls(dir: String) -> io::Result<()> {
+    let dir = if dir.is_empty() { "." } else { &dir };
+    let path = fs::read_dir(dir)?;
+
+    for entry in path {
+        let entry = entry?;
+        let filetype = entry.file_type()?;
+        let metadata = entry.metadata()?;
+
+        let type_label = if filetype.is_dir() {
+            " (Directory)"
+        } else if filetype.is_file() {
+            " (File)"
+        } else {
+            ""
+        };
+
+        println!("{}\t{}{}{}",
+                 entry.path().display(),
+                 "Filesize: ".red(),
+                 metadata.len().red(),
+                 type_label.yellow());
+    }
+    Ok(())
+}
+
 
 fn main() {
     let args = Args::parse();
@@ -114,20 +162,29 @@ fn main() {
         Commands::Grep { search } => grepper_meow(search.to_owned()), //replace to_owned() with clone() if you want to use the same string again later
         Commands::Cat { femboy } => cat(femboy.to_owned()),
         Commands::Test => test(),
+        Commands::Ls { dir }=> {
+            let _ = ls(dir.clone().unwrap_or(".".to_string()));
+        },
+        Commands::Rust { action, args } => {
+            let args_vec = args.clone().map_or_else(Vec::new, |arg| vec![arg]);
+            let _ = rust(action.clone(), args_vec);
+        }
     }
 }
 
 fn test() {
     owo_code! {
-        wet mutt meowput = String::new();
-        io::stdin().read_line(&mutt meowput).expect("Failed to read from stdin");
-        yiff meowput.is_empty() {
-            meowput = "Hello World!".to_string();
-        } yelse {
-            meowput = meowput.trim().to_string();
+        hecc {
+            wet mutt meowput = String::new();
+            io::stdin().read_line(&mutt meowput).expect("Failed to read from stdin");
+            yiff meowput.is_empty() {
+                meowput = "Hello World!".to_string();
+            } yelse {
+                meowput = meowput.trim().to_string();
+            }
+            println!("{}", meowput);
         }
     }
-    println!("{}", meowput);
 }
 
-//you are valid :3
+//you are valid :3x
