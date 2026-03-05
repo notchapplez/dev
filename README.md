@@ -8,3 +8,5 @@ dev includes:
 - test which is a buggy mode of cat
 - ls
 - and rust, to run rust commands without having to type cargo
+should work an all devices, but tested on Linux x86_64.
+if anything, don't hesitate to open an issue.
