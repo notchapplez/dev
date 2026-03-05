@@ -10,3 +10,8 @@ dev includes:
 - and rust, to run rust commands without having to type cargo
 should work an all devices, but tested on Linux x86_64.
 if anything, don't hesitate to open an issue.
+
+To run: 
+a) download the release file for Linux, open a terminal and make it executable with chmod a+x <filename> and then do ./<filename>
+
+or) git clone the repo, chang directory to it and run cargo run --release -- <program arguments here> (note: rust has to be installed on your PC for this)
