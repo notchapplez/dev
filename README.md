@@ -11,6 +11,8 @@ dev includes:
 should work an all devices, but tested on Linux x86_64.
 if anything, don't hesitate to open an issue.
 
+## Note: If you don't know how to use these programs, most of them are exactly like the GNU versions.
+
 To run: 
 a) download the release file for Linux, open a terminal and make it executable with chmod a+x <filename> and then do ./<filename>
 
